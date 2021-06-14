@@ -1,0 +1,9 @@
+.screen {
+  transition: all 0.3s ease;
+  background-color: #fff;
+  height: 100vh;
+  // height: calc(var(--vh, 1vh) * 100);
+  @media( max-width: 767px) and (max-height: 600px) {
+    height: 600px;
+  }
+}

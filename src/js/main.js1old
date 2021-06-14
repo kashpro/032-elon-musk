@@ -1,0 +1,746 @@
+/* App styles */
+import "@/scss/main.scss";
+
+/* Development stats */
+import Development from './development.js';
+
+if (process.env.NODE_ENV === "development") {Development.addWindowStatsElement();}
+
+// import $ from "jquery";
+// window.jQuery = $;
+// window.$ = $;
+import fullpage from "./fullpage.js";
+
+// let isDestroyed = false;
+let isScrolled = false;
+
+let myFullpage = new fullpage('main', {
+	//Навигация
+	// menu: null,//'#menu',
+	lockAnchors: true,
+	anchors: ['screen1', 'screen2', 'screen3'],//['firstPage', 'secondPage'],
+	// navigation: false,
+	// // navigationPosition: 'right',
+	// // navigationTooltips: ['firstSlide', 'secondSlide'],
+	// showActiveTooltip: false,
+	// slidesNavigation: false,
+	// slidesNavPosition: 'bottom',
+
+	// //Скроллинг
+	// css3: true,
+	// scrollingSpeed: 700,
+	// autoScrolling: true,
+	fitToSection: false,
+	// fitToSectionDelay: 1000,
+	scrollBar: true,
+	// easing: 'easeInOutCubic',
+	// easingcss3: 'ease',
+	// loopBottom: false,
+	// loopTop: false,
+	// loopHorizontal: true,
+	// continuousVertical: false,
+	// continuousHorizontal: false,
+	// scrollHorizontally: false,
+	// interlockedSlides: false,
+	// dragAndMove: false,
+	// offsetSections: false,
+	// resetSliders: false,
+	// fadingEffect: false,
+	// normalScrollElements: '#element1, .element2',
+	// scrollOverflow: false,
+	// scrollOverflowReset: false,
+	// scrollOverflowOptions: null,
+	// touchSensitivity: 15,
+	// bigSectionsDestination: null,
+
+	// //Доступ
+	// keyboardScrolling: true,
+	// animateAnchor: true,
+	// recordHistory: true,
+
+	// //Дизайн
+	// controlArrows: true,
+	// verticalCentered: true,
+	// // sectionsColor : ['#ccc', '#fff'],
+	// paddingTop: '3em',
+	// paddingBottom: '10px',
+	// fixedElements: '.header',
+	// responsiveWidth: 0,
+	// responsiveHeight: 0,
+	// responsiveSlides: false,
+	// parallax: false,
+	// parallaxOptions: {type: 'reveal', percentage: 62, property: 'translate'},
+	// dropEffect: false,
+	// dropEffectOptions: { speed: 2300, color: '#F82F4D', zIndex: 9999},
+	// cards: false,
+	// cardsOptions: {perspective: 100, fadeContent: true, fadeBackground: true},
+
+	// //Настроить селекторы
+	sectionSelector: '.screen',
+	// slideSelector: '.slide',
+
+	// lazyLoading: true,
+
+	// //события
+	onLeave: (origin, destination, direction) => {
+    // console.log(isScrolled, origin.index, direction);
+    if (!isScrolled && origin.index == 0 && direction == 'down') {
+      console.log("action");
+      line2animation();
+      isScrolled = true;
+    }
+    if (origin.index == 0 && direction == 'down') {
+      fullpage_api.setAllowScrolling(false, 'down');
+    }
+    if (origin.index == 1 && direction == 'up') {
+      fullpage_api.setAllowScrolling(true, 'down');
+    }
+    // if (isDestroyed) {return;}
+    // console.log(destination);
+    if (destination.isLast) {
+      fullpage_api.setAllowScrolling(false);
+      // setTimeout( () => {
+        // fullpage_api.destroy();
+        // document.documentElement.style.scrollBehavior = 'smooth';
+        // document.body.style.scrollBehavior = 'smooth';
+        // fullpage_api.setAutoScrolling(false); /// 222
+        // fullpage_api.setFitToSection(false);
+      // }, 1000);
+      
+      // isDestroyed = true; ///222
+    }
+    // 
+  },
+	// afterLoad: function(origin, destination, direction){},
+	// afterRender: function(){},
+	// afterResize: function(width, height){},
+	// afterReBuild: function(){},
+	// afterResponsive: function(isResponsive){},
+	// afterSlideLoad: function(section, origin, destination, direction){},
+	// onSlideLeave: function(section, origin, destination, direction){}
+});
+
+const moreBtn = document.querySelector('.js-again-btn');
+const smoothLinks = document.querySelectorAll('.js-smooth-link');
+smoothLinks.forEach( item => item.addEventListener('click', e => {
+  // if (isDestroyed) {return;}
+  // console.log(fullpage_api.getActiveSection());
+  e.preventDefault();
+  fullpage_api.moveSectionDown();
+}) );
+
+const screen2Link = document.querySelector('.js-screen2-link');
+screen2Link.addEventListener('click', (e) => {
+  moreBtnClickHandler();
+});
+
+const homeLink = document.querySelector('.js-home-link');
+homeLink.addEventListener('click', e => {
+  // if (isDestroyed) {return;}
+  e.preventDefault();
+  fullpage_api.moveTo('screen1', 0);
+  setTimeout(() => {location.reload();}, 1000);
+});
+
+
+
+// fullpage_api.moveSectionUp()
+
+// require("./fullpage.js");
+
+
+// import $ from "jquery";
+// window.jQuery = $;
+// require('./jquery.pagepiling');
+
+// $(document).ready(function() {
+// 	$('main').pagepiling({
+//     menu: null,
+//     direction: 'vertical',
+//     verticalCentered: false,
+//     sectionsColor: [],
+//     anchors: [],
+//     scrollingSpeed: 700,
+//     easing: 'swing',
+//     loopBottom: false,
+//     loopTop: false,
+//     css3: true,
+//     // navigation: {
+//     //     'textColor': '#000',
+//     //     'bulletsColor': '#000',
+//     //     'position': 'right',
+//     //     'tooltips': ['section1', 'section2', 'section3', 'section4']
+//     // },
+//     navigation: null,
+//     normalScrollElements: null,
+//     normalScrollElementTouchThreshold: 5,
+//     touchSensitivity: 5,
+//     keyboardScrolling: true,
+//     sectionSelector: '.screen',
+//     animateAnchor: false,
+// 		//events
+// 		onLeave: function(index, nextIndex, direction){},
+// 		afterLoad: function(anchorLink, index){},
+// 		afterRender: function(){},
+// 	});
+// });
+
+
+
+
+// /* Smooth scroll */
+// let screen = 1;
+
+
+// // import smoothScroll from './smoothScroll.js';
+// // /* sections links */
+// // const links = document.querySelectorAll(".js-smooth-link");
+// // for (let i = 0; i < links.length; i++) {
+// //   links[i].addEventListener("click", linkHandler);
+// // }
+
+// // function linkHandler(e) {
+// //   e.preventDefault();
+// //   // console.log(this);
+// //   // console.log(e.target.dataset.screen);
+// //   if (this.dataset.screen != undefined) {
+// //     screen = +this.dataset.screen;
+// //     // console.log(screen);
+// //   }
+// //   smoothScroll(this.hash);
+// //   // history.pushState(null, null, this.hash);
+// // }
+
+
+// //-----------------------------
+import anime from 'animejs/lib/anime.es.js';
+import { get } from "jquery";
+// import fullpage from "fullpage.js/dist/fullpage.js";
+
+
+let arrow = document.querySelector(".anim__arrow");
+let baseHeight = 938;
+let currentHeight = document.documentElement.clientHeight;
+arrow.style.transform = `scale(${currentHeight / baseHeight})`;
+
+
+let path = anime.path('#line1');
+
+let myTimeline = anime.timeline({});
+
+myTimeline.add({
+  targets: ['#face', '#arrow', '#line1'],
+  // translateX: path('x'),
+  // translateY: path('y'),
+  opacity: 1,
+  duration: 1000,
+  loop: false,
+  easing: 'linear'
+}, 0);
+
+myTimeline.add({
+  targets: '#arrow',
+  translateX: path('x'),
+  translateY: path('y'),
+  rotate: path('angle'),
+  duration: 3000,
+  loop: false,
+  easing: 'easeInOutQuad'
+}, 0);
+
+myTimeline.add({
+  targets: '#line1',
+  strokeDashoffset: [anime.setDashoffset, 0],
+  easing: 'easeInOutQuad',
+  duration: 3000,
+  // delay: function(el, i) { return i * 250 },
+  direction: 'alternate',
+  loop: false,
+}, 0);
+
+myTimeline.add({
+  targets: '#link1',
+  easing: 'linear',
+  opacity: 1,
+  duration: 1000,
+  loop: false,
+}, 2500);
+
+
+// //-----------------
+// if (window.pageYOffset < document.body.scrollHeight * 0.23) {
+//   screen = 1;
+// } else if (window.pageYOffset < document.body.scrollHeight * 0.45) {
+//   screen = 2;
+// } else {
+//   screen = 3;
+// }
+// console.log(screen);
+// // let screen = 1;
+
+
+// let prevScroll = 0;
+
+// // window.addEventListener('wheel', (e) => {
+// //   // console.log(window.pageYOffset, prevScroll);
+// //   // console.log(e.deltaY);
+// //   e.preventDefault();
+// //   if (e.deltaY > 0) {
+// //     switch(screen) {
+// //       case 1: { smoothScroll('#block2'); screen = 2; break; }
+// //       case 2: { smoothScroll('#block3'); screen = 3; break; }
+// //       default: {smoothScroll(document.body.scrollHeight);}
+// //     }
+// //     // console.log('down');
+// //   } else {
+// //     // console.log('up');
+// //     switch(screen) {
+// //       case 2: { smoothScroll('#block1'); screen = 1; break; }
+// //       case 3: { smoothScroll('#block2'); screen = 2; break; }
+// //       default: {smoothScroll(0);}
+// //     }
+// //   }
+// //   prevScroll = window.pageYOffset;
+// // }, {passive: false});
+
+
+
+
+// //-----------------
+// //первый перелист экрана, для анимации линии
+// let onceLinks = document.querySelectorAll(".js-once-link");
+// // let arrowLink = document.querySelector(".js-arrow-link");
+
+// let onceScrollHandler = (e) => {
+//   // if (e.deltaY < 0) {
+//   //   console.log("again");
+//   //     window.addEventListener("wheel", onceScrollHandler);
+//   //     onceLinks.forEach( (link) => {link.addEventListener("click", onceScrollHandler);} );
+//   //   }
+//   //   return false;
+//   // }
+
+//   if (screen != 2 || e.deltaY < 0) {
+//     console.log(screen, e.deltaY);
+//     return false;
+//   }
+
+//   console.log('fire');
+
+//   // arrowLink.removeAttribute("href");
+//   window.removeEventListener("wheel", onceScrollHandler);
+//   onceLinks.forEach( (link) => {link.removeEventListener("click", onceScrollHandler);} );
+
+function line2animation() {
+  let myTimeline2 = anime.timeline({});
+
+  let path2 = anime.path('#line2');
+
+  const line1Height = document.querySelector('.anim__line1').clientHeight;
+//   // let line1Height = console.log(line1.clientHeight);
+
+  myTimeline2.add({
+    targets: '#line2',
+    strokeDashoffset: [anime.setDashoffset, 0],
+    easing: 'easeInOutQuad',
+    duration: 4000,
+    direction: 'alternate',
+    loop: false,
+  }, 0);
+
+  myTimeline2.add({
+    targets: '#line2',
+    opacity: 1,
+    duration: 1000,
+    loop: false,
+    easing: 'linear',
+  }, 0);
+
+  myTimeline2.add({
+    targets: '#arrow',
+    translateX: path2('x'),
+    translateY: path2('y'),
+    rotate: path2('angle'),
+    duration: 4000,
+    loop: false,
+    easing: 'easeInOutQuad',
+  }, 0);
+
+  myTimeline2.add({
+    targets: '#arrow',
+    bottom: -line1Height * (938/document.documentElement.clientHeight) + 'px',
+    duration: 0,
+    loop: false,
+    easing: 'linear',
+  }, 0);
+}
+
+  
+
+
+//-------------------------------------------------------------------------------------------------------GENERATOR
+// const test = e => {
+//   //G1
+//   const path = anime.path('#test-line');
+//   const g1 = document.querySelectorAll(".g1");
+//   const g1TimelinesMove = [];
+//   const g1TimelinesFont = [];
+//   const g1TimelinesBlur = [];
+
+//   g1.forEach( (item, i) => {
+//     setTimeout( () => {
+//       g1TimelinesMove.push(anime.timeline({loop: true, easing: 'easeInOutSine', duration: 2000,}));
+//       g1TimelinesMove[i].add({
+//         targets: item,
+//         translateX: path('x'),
+//         translateY: path('y'),
+//       })
+//       g1TimelinesFont.push(anime.timeline({loop: true, direction: 'alternate', easing: 'linear', duration: 1000,}));
+//       g1TimelinesFont[i].add({
+//         targets: item,
+//         fontSize: '36px',
+//       });
+//       g1TimelinesBlur.push(anime.timeline({loop: true, direction: 'alternate', easing: 'linear', duration: 1000,}));
+//       g1TimelinesBlur[i].add({
+//         targets: item,
+//         filter: 'blur(0px)',
+//       });
+
+//     }, 220 * i);
+//   });
+
+//   let random = 1;
+//   setTimeout(() => {
+//     g1TimelinesMove[random].change = () => {
+//       // console.log(g1TimelinesMove[random].progress);
+//       if (Math.round(g1TimelinesMove[random].progress) == 50) {
+//         g1TimelinesMove.forEach( item => item.pause() );
+//         g1TimelinesFont.forEach( item => item.pause() );
+//         g1TimelinesBlur.forEach( item => item.pause() );
+//       }
+//     }
+//   }, 5000);
+
+
+//   //G2
+//   const path2 = anime.path('#test-line2');
+//   const g2 = document.querySelectorAll(".g2");
+//   const g2TimelinesMove = [];
+//   const g2TimelinesFont = [];
+//   const g2TimelinesBlur = [];
+
+//   g2.forEach( (item, i) => {
+//     setTimeout( () => {
+//       g2TimelinesMove.push(anime.timeline({loop: true, easing: 'easeInOutSine', duration: 2000,}));
+//       g2TimelinesMove[i].add({
+//         targets: item,
+//         translateX: path2('x'),
+//         translateY: path2('y'),
+//       })
+//       g2TimelinesFont.push(anime.timeline({loop: true, direction: 'alternate', easing: 'linear', duration: 1000,}));
+//       g2TimelinesFont[i].add({
+//         targets: item,
+//         fontSize: '36px',
+//       });
+//       g2TimelinesBlur.push(anime.timeline({loop: true, direction: 'alternate', easing: 'linear', duration: 1000,}));
+//       g2TimelinesBlur[i].add({
+//         targets: item,
+//         filter: 'blur(0px)',
+//       });
+
+//     }, 220 * i);
+//   });
+
+//   let random2 = 0;
+//   setTimeout(() => {
+//     g2TimelinesMove[random2].change = () => {
+//       if (Math.round(g2TimelinesMove[random2].progress) == 50) {
+//         g2TimelinesMove.forEach( item => item.pause() );
+//         g2TimelinesFont.forEach( item => item.pause() );
+//         g2TimelinesBlur.forEach( item => item.pause() );
+//       }
+//     }
+//   }, 6000);
+
+
+//   //G3
+//   const path3 = anime.path('#test-line3');
+//   const g3 = document.querySelectorAll(".g3");
+//   const g3TimelinesMove = [];
+//   const g3TimelinesFont = [];
+//   const g3TimelinesBlur = [];
+
+//   g3.forEach( (item, i) => {
+//     setTimeout( () => {
+//       g3TimelinesMove.push(anime.timeline({loop: true, easing: 'easeInOutSine', duration: 2000,}));
+//       g3TimelinesMove[i].add({
+//         targets: item,
+//         translateX: path3('x'),
+//         translateY: path3('y'),
+//       })
+//       g3TimelinesFont.push(anime.timeline({loop: true, direction: 'alternate', easing: 'linear', duration: 1000,}));
+//       g3TimelinesFont[i].add({
+//         targets: item,
+//         fontSize: '36px',
+//       });
+//       g3TimelinesBlur.push(anime.timeline({loop: true, direction: 'alternate', easing: 'linear', duration: 1000,}));
+//       g3TimelinesBlur[i].add({
+//         targets: item,
+//         filter: 'blur(0px)',
+//       });
+
+//     }, 220 * i);
+//   });
+
+//   let random3 = 0;
+//   setTimeout(() => {
+//     g3TimelinesMove[random3].change = () => {
+//       if (Math.round(g3TimelinesMove[random3].progress) == 50) {
+//         g3TimelinesMove.forEach( item => item.pause() );
+//         g3TimelinesFont.forEach( item => item.pause() );
+//         g3TimelinesBlur.forEach( item => item.pause() );
+//       }
+//     }
+//   }, 7000);
+
+
+// window.g1 = g1TimelinesMove;
+// window.g2 = g2TimelinesMove;
+// window.g3 = g3TimelinesMove;
+  
+
+// }
+
+
+// const moreBtn = document.querySelector('.js-again-btn');
+// moreBtn.addEventListener('click', test);
+
+
+
+// // anime({
+//   //   targets: '.g1',
+//   //   delay: anime.stagger(250),
+//   //   translateX: path('x'),
+//   //   translateY: path('y'),
+//   //   easing: 'linear',
+//   //   duration: 2000,
+//   //   loop: true
+//   // });
+
+//   // anime({
+//   //   targets: '.g1',
+//   //   delay: anime.stagger(250),
+//   //   fontSize: '36px',
+//   //   // filter: 'blur(0px)',
+//   //   // easing: function(el, i, total) { console.log(el, i, total); return function(t) { console.log(t, i ); return t * i } },//'easeInOutCubic',
+//   //   easing: 'easeInOutSine',
+//   //   direction: 'alternate',
+//   //   duration: 1000,
+//   //   loop: true
+//   // });
+
+//   // anime({
+//   //   targets: '.g1',
+//   //   delay: anime.stagger(250),
+//   //   // fontSize: '36px',
+//   //   filter: 'blur(0px)',
+//   //   // easing: function(el, i, total) { console.log(el, i, total); return function(t) { console.log(t, i ); return t * i } },//'easeInOutCubic',
+//   //   easing: 'easeInOutSine',
+//   //   direction: 'alternate',
+//   //   duration: 1000,
+//   //   loop: true
+//   // });
+
+  
+
+
+// GENERATOR 2
+const stickers = document.querySelectorAll('.js-generator-image');
+console.log(stickers, stickers.length);
+function revealSticker() {
+  // const rnd = Math.round(Math.random() * stickers.length) - 1;
+  const rnd = Math.floor(Math.random() * stickers.length);
+  console.log(rnd);
+  hideAllStickers();
+  stickers[rnd].classList.remove('fade');
+}
+
+function hideAllStickers() {
+  stickers.forEach( item => {
+    item.classList.add('fade');
+  });
+}
+
+
+
+//заполнение
+
+
+const col0 = document.querySelector('.js-col-0');
+const col1 = document.querySelector('.js-col-1');
+const col2 = document.querySelector('.js-col-2');
+
+let blank = document.createElement('div');
+blank.classList.add('generator__value');
+
+const generatorHeight = document.querySelector('.js-generator').clientHeight;
+// console.log(generatorHeight);
+const valueHeight = generatorHeight / 5;
+
+let oldRandomValue0 = 0;
+let oldRandomValue1 = 0;
+let oldRandomValue2 = 0;
+// const initialTranslate1 = valueHeight * WORDS[0].length * (cycles1 - 1) - valueHeight * 2;
+const initialTranslate1 = -valueHeight * WORDS[0].length + valueHeight * 2;// - (valueHeight * oldRandomValue1);
+const initialTranslate2 = -valueHeight * WORDS[1].length + valueHeight * 2;// - (valueHeight * oldRandomValue1);
+const initialTranslate3 = -valueHeight * WORDS[2].length + valueHeight * 2;// - (valueHeight * oldRandomValue1);
+// console.log(initialTranslate1);
+
+// col0.style.transform = `translateY(-${valueHeight * WORDS[0].length * cycles1 - generatorHeight}px)`;
+col0.style.transform = `translateY(${initialTranslate1}px)`;
+col1.style.transform = `translateY(${initialTranslate2}px)`;
+col2.style.transform = `translateY(${initialTranslate3}px)`;
+
+
+for (let i = 0; i < SETTINGS.cycles0; i++) {
+  WORDS[0].forEach( (item, i) => {
+    let copy = blank.cloneNode();
+    copy.innerHTML = item;
+    copy.style.height = `${valueHeight}px`;
+    col0.append(copy);
+  } );
+}
+
+
+for (let i = 0; i < SETTINGS.cycles1; i++) {
+  WORDS[1].forEach( (item, i) => {
+    let copy = blank.cloneNode();
+    copy.innerHTML = item;
+    copy.style.height = `${valueHeight}px`;
+    col1.append(copy);
+  } );
+}
+
+for (let i = 0; i < SETTINGS.cycles2; i++) {
+  WORDS[2].forEach( (item, i) => {
+    let copy = blank.cloneNode();
+    copy.innerHTML = item;
+    copy.style.height = `${valueHeight}px`;
+    col2.append(copy);
+  } );
+}
+
+const gen = document.querySelector('.js-generator');
+
+const values0 = document.querySelectorAll('.js-col-0 .generator__value');
+const values1 = document.querySelectorAll('.js-col-1 .generator__value');
+const values2 = document.querySelectorAll('.js-col-2 .generator__value');
+
+valuesAnimationAll();
+
+
+moreBtn.addEventListener('click', moreBtnClickHandler);
+
+function moreBtnClickHandler(e) {
+  hideAllStickers();
+  // console.log(e.target);
+  moreBtn.disabled = true;
+  const randomValue0 = Math.floor(Math.random() * (WORDS[0].length));
+  const randomValue1 = Math.floor(Math.random() * (WORDS[1].length));
+  const randomValue2 = Math.floor(Math.random() * (WORDS[2].length));
+
+  console.log(randomValue0, randomValue1, randomValue2);
+  // valueHeight * WORDS[0].length * (cycles1 - 1) - valueHeight * 2
+  col0.style.transform = `translateY(${-valueHeight * WORDS[0].length * (SETTINGS.cycles0 - 2) + valueHeight * 2 - (valueHeight * oldRandomValue0)}px)`;
+  col1.style.transform = `translateY(${-valueHeight * WORDS[1].length * (SETTINGS.cycles1 - 2) + valueHeight * 2 - (valueHeight * oldRandomValue1)}px)`;
+  col2.style.transform = `translateY(${-valueHeight * WORDS[2].length * (SETTINGS.cycles0 - 2) + valueHeight * 2 - (valueHeight * oldRandomValue2)}px)`;
+  valuesAnimationAll();
+
+  oldRandomValue0 = randomValue0;
+  oldRandomValue1 = randomValue1;
+  oldRandomValue2 = randomValue2;
+  
+  const currentTranslate0 = -valueHeight * WORDS[0].length + valueHeight * 2 - (valueHeight * randomValue0);
+  const currentTranslate1 = -valueHeight * WORDS[1].length + valueHeight * 2 - (valueHeight * randomValue1);
+  const currentTranslate2 = -valueHeight * WORDS[2].length + valueHeight * 2 - (valueHeight * randomValue2);
+
+  const animation0 = anime({
+    targets: col0,
+    translateY: currentTranslate0,
+    easing: 'easeInOutSine',
+    duration: SETTINGS.oneCycleTime * SETTINGS.cycles0,
+  });
+
+  const animation1 = anime({
+    targets: col1,
+    translateY: currentTranslate1,
+    easing: 'easeInOutSine',
+    duration: SETTINGS.oneCycleTime * SETTINGS.cycles1,
+  });
+  const animation2 = anime({
+    targets: col2,
+    translateY: currentTranslate2,
+    easing: 'easeInOutSine',
+    duration: SETTINGS.oneCycleTime * SETTINGS.cycles2,
+    complete: () => {moreBtn.disabled = false; revealSticker();}
+  });
+
+
+  //requestAnimationFrame;
+  // duration = duration * Math.abs(delta/1000); // 500 msec for 1000 px
+  // const start = performance.now();
+  // requestAnimationFrame(animate);
+  // return false;
+
+  // function animate(time) {
+  //   let timeFraction = (time - start) / duration;
+  //   timeFraction = Math.min(Math.max(timeFraction, 0), 1); //clamp
+  //   let progress = timing(timeFraction, power);
+  //   window.scrollTo(0, currentScroll + delta * progress);
+  //   if (timeFraction < 1) {requestAnimationFrame(animate);}
+  // }
+  requestAnimationFrame(animate);
+
+  function animate(time) {
+    //первый столбец
+    if (animation0.progress < 100) {
+      valuesAnimation(values0);
+    }
+    if (animation1.progress < 100) {
+      valuesAnimation(values1);
+    }
+    if (animation2.progress < 100) {
+      valuesAnimation(values2);
+    }
+    if (animation0.progress < 100 || animation1.progress < 100 || animation2.progress < 100 ) {
+      requestAnimationFrame(animate);
+    }
+  }
+}
+
+function valuesAnimationAll() {
+  valuesAnimation(values0);
+  valuesAnimation(values1);
+  valuesAnimation(values2);
+}
+
+function valuesAnimation(values) {
+  values.forEach( (item, i) => {
+    const elemPos = item.getBoundingClientRect().y + item.clientHeight / 2 - gen.getBoundingClientRect().y;
+    let relativePos;
+    if (elemPos >= 0 && elemPos < generatorHeight) {
+      relativePos = elemPos / generatorHeight;
+      if (relativePos < 0.5) {
+        item.style.filter = `blur(${(4 - relativePos * 8).toFixed(1)}px)`; //blur
+        item.style.fontSize = `${(22 + relativePos * 28).toFixed(1)}px`;
+      } else {
+        item.style.filter = `blur(${((relativePos - 0.5) * 8).toFixed(1)}px)`; //blur
+        item.style.fontSize = `${(36 - (relativePos-0.5) * 28).toFixed(1)}px`;
+      }
+    } else {
+      item.style.filter = `blur(4px)`; //blur
+      item.style.fontSize = `22px`;
+    };
+  });
+}
+

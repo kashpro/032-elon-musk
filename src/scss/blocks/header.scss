@@ -1,0 +1,25 @@
+.header {
+    // background-color: $temp1;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+    background-color: rgba(#ffffff, 1);
+    transition: all 0.4s ease;
+    &--transparent {
+        background-color: transparent;
+    }
+    @media (max-width: 1279px) {
+        height: 44px;
+        justify-content: center;
+    }
+    &__note {
+        margin-left: 65px;
+        color: #2a2a2a;
+        @media (max-width: 1279px) {
+            margin-left: 0;
+        }
+    }
+}

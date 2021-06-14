@@ -1,0 +1,27 @@
+.btn {
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+    font-size: 24px;
+    line-height: 1;
+    text-decoration: none;
+    background: #A359A2;
+    padding: 11px;
+    cursor: pointer;
+    border-radius: 90px;
+    border: none;
+    color: #E5E5E5;
+    position: relative;
+    transition: all 0.2s ease;
+    @include hover {
+        background-color: #5b365a;
+    }
+    &:disabled {
+        background-color: #555;
+        cursor: default;
+    }
+    @media (max-width: 767px) {
+        font-size: 20px;
+        padding: 8px;
+    }
+}
