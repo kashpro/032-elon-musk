@@ -336,7 +336,8 @@
     cycles0: 8,
     cycles1: 9,
     cycles2: 10,
-    saveImageUrl: 'http://save-image.the-uweb.ru/',
+    // saveImageUrl: 'http://save-image.the-uweb.ru/share-image.php',
+    saveImageUrl: './php/share-image.php',
   };
 </script>
 

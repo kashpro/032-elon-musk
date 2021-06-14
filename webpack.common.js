@@ -17,6 +17,12 @@ const findHtmlTemplates = () => {
   return configs.map( config => new HtmlWebpackPlugin(config) ); // Имена файлов html должны совпадать в папках src и dist
 }
 
+const findPhpTemplates = () => {
+  const phpFiles = glob.sync(__dirname + '/src/**/*.php');
+  const configs = phpFiles.map( phpFile => { return {template: phpFile, filename: path.parse(phpFile).base};} );
+  return configs.map( config => new HtmlWebpackPlugin(config) ); // Имена файлов html должны совпадать в папках src и dist
+}
+
 const findPugTemplates = () => {
   const pugFiles = glob.sync(__dirname + '/src/pug/*.pug');
   const configs = pugFiles.map( pugFile => { return {template: pugFile, filename: path.parse(pugFile).base.replace(/\.pug/,'.html')};} );
@@ -189,5 +195,6 @@ module.exports = {
     }),
     ...findHtmlTemplates(),
     ...findPugTemplates(),
+    ...findPhpTemplates(),
   ],
 };
