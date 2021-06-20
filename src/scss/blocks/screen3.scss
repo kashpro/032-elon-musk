@@ -96,6 +96,15 @@
         @media( max-width: 767px) and (max-height: 700px) {
             top: -120px;
         }
+        @media (max-width: 767px) and (max-height: 620px) {
+            top: -100px;
+        }
+        @media (max-width: 767px) and (max-height: 580px) {
+            top: -110px;
+        }
+        @media (max-width: 767px) and (max-height: 570px) {
+            top: -118px;
+        }
     }
     &__footer {
         position: absolute;

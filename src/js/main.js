@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === "development") {Development.addWindowStatsElement()
 
 const share = Ya.share2('share', {
   content: {
-    title: 'Dada agency',
+    title: 'Dada Agency',
     description: 'Как тебе такое, Илон Маск!?',
     image: location.origin + location.pathname + '/assets/images/share3-default.png',
     url: location.origin + location.pathname,   
@@ -107,7 +107,7 @@ if (window.innerWidth >= 1280) {
   let baseHeight = 938;
   let currentHeight = document.documentElement.clientHeight;
   arrow.style.transform = `scale(${currentHeight / baseHeight})`;
-
+  let dontHide = false;
 
   let path = anime.path('#line1');
 
@@ -129,7 +129,7 @@ if (window.innerWidth >= 1280) {
     duration: 3000,
     loop: false,
     easing: 'easeInOutQuad',
-    complete: () => {console.log('arrow anim'); arrow2.classList.add('arrow-scale');}
+    complete: () => {console.log('arrow anim'); if (!dontHide) {arrow.classList.add('fade')}; arrow2.classList.add('arrow-scale');}
   }, 0);
 
   myTimeline.add({
@@ -145,11 +145,12 @@ if (window.innerWidth >= 1280) {
     targets: '#link1',
     easing: 'linear',
     opacity: 1,
-    duration: 1000,
+    duration: 200,
     loop: false,
   }, 2500);
 
   function line2animation() {
+    dontHide = true;
     let myTimeline2 = anime.timeline({});
 
     let path2 = anime.path('#line2');
@@ -181,7 +182,7 @@ if (window.innerWidth >= 1280) {
       duration: 4000,
       loop: false,
       easing: 'easeInOutQuad',
-      begin: () => {console.log('arrow2 stop'); arrow2.classList.remove('arrow-scale');}
+      begin: () => {console.log('arrow2 stop'); arrow.classList.remove('fade'); arrow2.classList.remove('arrow-scale');}
     }, 0);
 
     myTimeline2.add({
@@ -452,6 +453,8 @@ function moreBtnClickHandler(e) {
   const currentTranslate1 = -valueHeight * WORDS[1].length + valueHeight * 2 - (valueHeight * randomValue1);
   const currentTranslate2 = -valueHeight * WORDS[2].length + valueHeight * 2 - (valueHeight * randomValue2);
 
+  console.log(currentTranslate0, currentTranslate1, currentTranslate2);
+
   const animation0 = anime({
     targets: col0,
     translateY: currentTranslate0,
@@ -592,3 +595,26 @@ function valuesAnimation(values) {
 //   let vh = window.innerHeight * 0.01;
 //   document.documentElement.style.setProperty('--vh', `${vh}px`);
 // }
+
+
+
+
+
+
+//RELOAD ON RESIZE FOR DESKTOP
+const initialWidth = window.innerWidth;
+
+const delay = 200;
+let resizeTimeout = null;
+window.addEventListener("resize", onWindowResizeHandler);
+
+function onWindowResizeHandler() {
+  // if (window.innerWidth <= initialWidth && window.innerWidth <= 1279) { return false; }
+
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(resizeAction, delay);
+}
+
+function resizeAction() {
+  location.reload();
+}

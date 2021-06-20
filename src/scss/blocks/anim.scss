@@ -41,6 +41,7 @@
 
     &__arrow {
         // --scale: calc( 80 / 100 );
+        // transform: all 2s ease;
         line-height: 0;
         position: absolute;
         // top: 0;
@@ -140,6 +141,7 @@
 
 #arrow2 {
     opacity: 0;
+    z-index: 10;
 }
 
 @keyframes arrow-scale {
